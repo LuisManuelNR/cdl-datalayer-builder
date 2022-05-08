@@ -2,15 +2,14 @@
   import { CInput, CIcon, CDialog } from 'chasi-lib'
   import {
     mdiPlus,
-    mdiCodeBrackets,
-    mdiCodeBraces,
-    mdiPencil,
     mdiCloseCircleOutline
   } from '@mdi/js'
   import TreeValueEditor from './TreeValueEditor.svelte'
+  import TreeOptions from './TreeOptions.svelte'
   import type { DatalayerEvent } from 'src/store/events'
 
   export let tree: DatalayerEvent[]
+  export let parent: DatalayerEvent | undefined = undefined
 
   let newField = ''
   let newDialogVisible = false
@@ -24,26 +23,6 @@
     ]
     newDialogVisible = false
     newField = ''
-  }
-
-  function toObject (index: number) {
-    tree[index] = {
-      propName: tree[index].propName,
-      childrens: []
-    }
-  }
-  function toArray (index: number) {
-    tree[index] = {
-      propName: tree[index].propName,
-      childrens: [],
-      isArray: true
-    }
-  }
-  function toValue (index: number) {
-    tree[index] = {
-      propName: tree[index].propName,
-      isMeta: {}
-    }
   }
 
   let activeRemoveButton: DatalayerEvent | string | undefined = undefined
@@ -79,28 +58,11 @@
           {/if}
         </div>
         {#if item.isEdit}
-          <button
-            class="c-btn icon text object"
-            on:click={() => toObject(index)}
-          >
-            <CIcon icon={mdiCodeBraces} />
-          </button>
-          <button
-            class="c-btn icon text array"
-            on:click={() => toArray(index)}
-          >
-            <CIcon icon={mdiCodeBrackets} />
-          </button>
-          <button
-            class="c-btn icon text success-text"
-            on:click={() => toValue(index)}
-          >
-            <CIcon icon={mdiPencil} />
-          </button>
+          <TreeOptions {index} bind:tree />
         {:else if item.isMeta}
           <TreeValueEditor bind:value={item.isMeta} />
         {:else if item.childrens}
-          <svelte:self bind:tree={item.childrens} />
+          <svelte:self bind:tree={item.childrens} parent={item} />
         {:else if item.value}
           <span class="value">{item.value}</span>
         {/if}
@@ -109,14 +71,18 @@
     <div class="tree-item action">
       <CDialog bind:visible={newDialogVisible} persistent width="450px">
         <div class="c-card surface-1">
+          {#if parent.isArray}
+            <button class="c-btn ">
+              Añadir Valor
+            </button>
+          {/if}
           <CInput label="Nombre" value={newField}>
             <input bind:value={newField} />
           </CInput>
-          <pre>{JSON.stringify(tree, null, 2)}</pre>
           <div class="c-flex justify-between">
             <button
               class="c-btn text"
-              on:click={() => (newDialogVisible = false)}
+              on:click={() => newDialogVisible = false}
             >
               Cancelar
             </button>
@@ -125,13 +91,18 @@
             </button>
           </div>
         </div>
-        <button
-          slot="action"
-          class="c-btn icon text success-text"
-          on:click={() => (newDialogVisible = true)}
-        >
-          <CIcon icon={mdiPlus} />
-        </button>
+        <div slot="action">
+          {#if parent && parent.isArray}
+            <TreeOptions index={tree.length} bind:tree={tree} />
+          {:else}
+            <button
+              class="c-btn icon text success-text"
+              on:click={() => newDialogVisible = true}
+            >
+              <CIcon icon={mdiPlus} />
+            </button>
+          {/if}
+        </div>
       </CDialog>
     </div>
   </div>
@@ -191,13 +162,13 @@
         }
       }
     }
-    .value {
+    :global(.value) {
       color: hsl(0deg 74% 71%);
     }
-    .array {
+    :global(.array) {
       color: hsl(50deg 74% 71%);
     }
-    .object {
+    :global(.object) {
       color: hsl(220deg 74% 71%);
     }
 
