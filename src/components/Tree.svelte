@@ -1,84 +1,95 @@
 <script lang="ts">
   import { CInput, CIcon, CDialog } from 'chasi-lib'
-  import { mdiClose, mdiPlus, mdiCodeBrackets, mdiCodeBraces, mdiPencil } from '@mdi/js'
+  import {
+    mdiPlus,
+    mdiCodeBrackets,
+    mdiCodeBraces,
+    mdiPencil,
+  } from '@mdi/js'
   import TreeValueEditor from './TreeValueEditor.svelte'
 
-  export let tree: Record<string, any> = {}
+  export let tree: Record<string, any>
 
   let newField = ''
   let newDialogVisible = false
-  function addField () {
+  function addField() {
     tree = {
       ...tree,
-      [newField]: undefined
+      [newField]: { isEdit: {} },
     }
     newDialogVisible = false
     newField = ''
   }
-
-  function setField (field: string, value: any) {
-    tree = {
-      ...tree,
-      [field]: value
-    }
-  }
 </script>
 
-<div class="tree">
-{#each Object.keys(tree) as treeKey}
-  <div class="tree-item">
-    <span class="key">{treeKey}:</span>
-    {#if tree[treeKey] === undefined}
-      <button
-        class="c-btn icon text success-text"
-        on:click={() => setField(treeKey, {})}
+{#if tree}
+  <div class="tree">
+    {#each Object.keys(tree) as treeKey}
+      <div
+        class="tree-item"
+        class:is-value={typeof tree[treeKey] === 'object' &&
+          'isValue' in tree[treeKey]}
       >
-        <CIcon icon={mdiCodeBraces} />
-      </button>
-      <button
-        class="c-btn icon text success-text"
-        on:click={() => tree[treeKey] = { isArray: {} }}
-      >
-        <CIcon icon={mdiCodeBrackets} />
-      </button>
-      <button
-        class="c-btn icon text success-text"
-        on:click={() => tree[treeKey] = { isValue: {} }}
-      >
-        <CIcon icon={mdiPencil} />
-      </button>
-    {:else if typeof tree[treeKey] === 'object' && 'isValue' in tree[treeKey]}
-      <TreeValueEditor bind:value={tree[treeKey].isValue} />
-    {:else if typeof tree[treeKey] === 'object' && 'isArray' in tree[treeKey]}
-      [ <svelte:self bind:tree={tree[treeKey].isArray} /> ]
-    {:else if typeof tree[treeKey] === 'object' && tree[treeKey] !== null}
-      &lcub; <svelte:self bind:tree={tree[treeKey]} /> &rcub;
-    {:else}
-      <span class="value">{tree[treeKey]}</span>
-    {/if}
-  </div>
-{/each}
-  <div class="tree-item action">
-    <CDialog bind:visible={newDialogVisible} persistent width="450px">
-      <div class="c-card surface-1">
-        <CInput label="Nombre" value={newField}>
-          <input bind:value={newField}>
-        </CInput>
-        <div class="c-flex justify-between">
-          <button class="c-btn text" on:click={() => newDialogVisible = false}>
-            Cancelar
+        <span class="key">{treeKey}:</span>
+        {#if typeof tree[treeKey] === 'object' && 'isEdit' in tree[treeKey]}
+          <button
+            class="c-btn icon text success-text"
+            on:click={() => (tree[treeKey] = {})}
+          >
+            <CIcon icon={mdiCodeBraces} />
           </button>
-          <button class="c-btn text primary-text" on:click={addField}>
-            Añadir
+          <button
+            class="c-btn icon text success-text"
+            on:click={() => (tree[treeKey] = { isArray: {} })}
+          >
+            <CIcon icon={mdiCodeBrackets} />
           </button>
-        </div>
+          <button
+            class="c-btn icon text success-text"
+            on:click={() => (tree[treeKey] = { isValue: {} })}
+          >
+            <CIcon icon={mdiPencil} />
+          </button>
+        {:else if typeof tree[treeKey] === 'object' && 'isValue' in tree[treeKey]}
+          <TreeValueEditor bind:value={tree[treeKey].isValue} />
+        {:else if typeof tree[treeKey] === 'object' && 'isArray' in tree[treeKey]}
+          [ <svelte:self bind:tree={tree[treeKey].isArray} /> ]
+        {:else if typeof tree[treeKey] === 'object' && tree[treeKey] !== null}
+          &lcub; <svelte:self bind:tree={tree[treeKey]} /> &rcub;
+        {:else}
+          <span class="value">{tree[treeKey]}</span>
+        {/if}
       </div>
-      <button slot="action" class="c-btn icon text success-text" on:click={() => newDialogVisible = true}>
-        <CIcon icon={mdiPlus} />
-      </button>
-    </CDialog>
+    {/each}
+    <div class="tree-item action">
+      <CDialog bind:visible={newDialogVisible} persistent width="450px">
+        <div class="c-card surface-1">
+          <CInput label="Nombre" value={newField}>
+            <input bind:value={newField} />
+          </CInput>
+          <div class="c-flex justify-between">
+            <button
+              class="c-btn text"
+              on:click={() => (newDialogVisible = false)}
+            >
+              Cancelar
+            </button>
+            <button class="c-btn text primary-text" on:click={addField}>
+              Añadir
+            </button>
+          </div>
+        </div>
+        <button
+          slot="action"
+          class="c-btn icon text success-text"
+          on:click={() => (newDialogVisible = true)}
+        >
+          <CIcon icon={mdiPlus} />
+        </button>
+      </CDialog>
+    </div>
   </div>
-</div>
+{/if}
 
 <style lang="scss">
   .tree {
@@ -109,6 +120,11 @@
       }
       :hover {
         --dashColor: var(--primary);
+      }
+      &.is-value {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
       }
     }
     .key {

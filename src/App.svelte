@@ -9,8 +9,6 @@
   <Nav />
   <main class="mt-2">
     <MetaDataEditor />
-    <div class="c-grid xs-2 mt-2">
-      <EventEditor />
-    </div>
+    <EventEditor />
   </main>
 </CApp>

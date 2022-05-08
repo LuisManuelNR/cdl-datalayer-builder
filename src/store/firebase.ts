@@ -31,12 +31,10 @@ export function appCollection <T>(name: string) {
       onChange(listOfData)
     }),
     update: async (key: string, document: T) => {
-      const result = await setDoc(doc(collRef, key), document, { merge: true })
-      return result
+      await setDoc(doc(collRef, key), document)
     },
     remove: async (key: string) => {
-      const result = await deleteDoc(doc(collRef, key))
-      return result
+      await deleteDoc(doc(collRef, key))
     }
   }
 }

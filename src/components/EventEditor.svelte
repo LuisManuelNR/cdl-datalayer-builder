@@ -4,10 +4,17 @@
 </script>
 
 {#if $selectedEvent}
-  <div>
+  <div class="editor">
     <h3>{$selectedEvent.name}</h3>
     <Tree bind:tree={$selectedEvent.data}></Tree>
   </div>
 {:else}
   <div>Seleccione un evento para inspeccionarlo</div>
 {/if}
+
+<style>
+  .editor {
+    overflow: auto;
+    min-height: 75vh;
+  }
+</style>
