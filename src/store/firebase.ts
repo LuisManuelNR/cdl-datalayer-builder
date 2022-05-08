@@ -1,11 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, onSnapshot, doc, setDoc } from 'firebase/firestore'
+import { writable } from 'svelte/store'
 
-import { collection, getFirestore, onSnapshot, doc, setDoc, deleteDoc } from 'firebase/firestore'
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyCjvO0vkfs_-gPRbMMsMDFlBcC5cbgQ480',
   authDomain: 'cdl-datalayer-builder.firebaseapp.com',
@@ -20,21 +16,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
-export function appCollection <T>(name: string) {
-  const collRef = collection(db, name)
-  const listOfData: Record<string, T> = {}
-  return {
-    listen: (onChange: (documents: Record<string, T>) => void) => onSnapshot(collRef, document => {
-      document.forEach(d => {
-        listOfData[d.id] = d.data() as T
-      })
-      onChange(listOfData)
-    }),
-    update: async (key: string, document: T) => {
-      await setDoc(doc(collRef, key), document)
-    },
-    remove: async (key: string) => {
-      await deleteDoc(doc(collRef, key))
+const COLLECTION_NAME = 'builder'
+
+export function appCollection <T>(name: string, defaultValue?: T) {
+  const value = writable<T>(defaultValue)
+
+  let allowWriteToDB = false
+  value.subscribe(v => {
+    if (allowWriteToDB) {
+      setDoc(doc(db, COLLECTION_NAME, name), { data: v })
     }
-  }
+    allowWriteToDB = true
+  })
+
+  onSnapshot(doc(db, COLLECTION_NAME, name), d => {
+    const Raw = d.data()
+    if (Raw) {
+      allowWriteToDB = false
+      value.set(Raw.data)
+    }
+  })
+  return value
 }

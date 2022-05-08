@@ -5,59 +5,104 @@
     mdiCodeBrackets,
     mdiCodeBraces,
     mdiPencil,
+    mdiCloseCircleOutline
   } from '@mdi/js'
   import TreeValueEditor from './TreeValueEditor.svelte'
+  import type { DatalayerEvent } from 'src/store/events'
 
-  export let tree: Record<string, any>
+  export let tree: DatalayerEvent[]
 
   let newField = ''
   let newDialogVisible = false
   function addField() {
-    tree = {
+    tree = [
       ...tree,
-      [newField]: { isEdit: {} },
-    }
+      {
+        propName: newField,
+        isEdit: true
+      }
+    ]
     newDialogVisible = false
     newField = ''
+  }
+
+  function toObject (index: number) {
+    tree[index] = {
+      propName: tree[index].propName,
+      childrens: []
+    }
+  }
+  function toArray (index: number) {
+    tree[index] = {
+      propName: tree[index].propName,
+      childrens: [],
+      isArray: true
+    }
+  }
+  function toValue (index: number) {
+    tree[index] = {
+      propName: tree[index].propName,
+      isMeta: {}
+    }
+  }
+
+  let activeRemoveButton: DatalayerEvent | string | undefined = undefined
+
+  function removeItem (index: number) {
+    tree = tree.filter((v, i) => i !== index)
   }
 </script>
 
 {#if tree}
   <div class="tree">
-    {#each Object.keys(tree) as treeKey}
+    {#each tree as item, index}
       <div
         class="tree-item"
-        class:is-value={typeof tree[treeKey] === 'object' &&
-          'isValue' in tree[treeKey]}
+        class:is-meta={item.isMeta || item.isEdit}
       >
-        <span class="key">{treeKey}:</span>
-        {#if typeof tree[treeKey] === 'object' && 'isEdit' in tree[treeKey]}
+        <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+        <div
+          class="key"
+          on:mouseover={() => activeRemoveButton = item}
+          on:mouseleave={() => activeRemoveButton = undefined}
+        >
+          {#if activeRemoveButton === item}
+            <button on:click={() => removeItem(index)} class="c-btn icon text error-text remove-btn">
+              <CIcon icon={mdiCloseCircleOutline} />
+            </button>
+          {/if}
+          {item.propName}:
+          {#if item.childrens}
+            <span class:object={!item.isArray} class:array={item.isArray}>
+              {item.isArray ? 'List' : 'Object'}
+            </span>
+          {/if}
+        </div>
+        {#if item.isEdit}
           <button
-            class="c-btn icon text success-text"
-            on:click={() => (tree[treeKey] = {})}
+            class="c-btn icon text object"
+            on:click={() => toObject(index)}
           >
             <CIcon icon={mdiCodeBraces} />
           </button>
           <button
-            class="c-btn icon text success-text"
-            on:click={() => (tree[treeKey] = { isArray: {} })}
+            class="c-btn icon text array"
+            on:click={() => toArray(index)}
           >
             <CIcon icon={mdiCodeBrackets} />
           </button>
           <button
             class="c-btn icon text success-text"
-            on:click={() => (tree[treeKey] = { isValue: {} })}
+            on:click={() => toValue(index)}
           >
             <CIcon icon={mdiPencil} />
           </button>
-        {:else if typeof tree[treeKey] === 'object' && 'isValue' in tree[treeKey]}
-          <TreeValueEditor bind:value={tree[treeKey].isValue} />
-        {:else if typeof tree[treeKey] === 'object' && 'isArray' in tree[treeKey]}
-          [ <svelte:self bind:tree={tree[treeKey].isArray} /> ]
-        {:else if typeof tree[treeKey] === 'object' && tree[treeKey] !== null}
-          &lcub; <svelte:self bind:tree={tree[treeKey]} /> &rcub;
-        {:else}
-          <span class="value">{tree[treeKey]}</span>
+        {:else if item.isMeta}
+          <TreeValueEditor bind:value={item.isMeta} />
+        {:else if item.childrens}
+          <svelte:self bind:tree={item.childrens} />
+        {:else if item.value}
+          <span class="value">{item.value}</span>
         {/if}
       </div>
     {/each}
@@ -67,6 +112,7 @@
           <CInput label="Nombre" value={newField}>
             <input bind:value={newField} />
           </CInput>
+          <pre>{JSON.stringify(tree, null, 2)}</pre>
           <div class="c-flex justify-between">
             <button
               class="c-btn text"
@@ -113,15 +159,12 @@
       &::after {
         position: absolute;
         content: '';
-        top: var(--h, 2rem);
+        top: var(--h, 1.7rem);
         left: calc(var(--size-4) * -1);
         width: var(--size-3);
         border-bottom: 2px dashed var(--dashColor);
       }
-      :hover {
-        --dashColor: var(--primary);
-      }
-      &.is-value {
+      &.is-meta {
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -129,11 +172,41 @@
     }
     .key {
       color: hsl(205deg 100% 83%);
-      margin-top: 11px;
+      margin: 5px 0;
       display: inline-block;
+      span {
+        padding: var(--size-1);
+        border-radius: var(--size-1);
+        position: relative;
+        &::before {
+          position: absolute;
+          background-color: currentColor;
+          border-radius: inherit;
+          content: '';
+          opacity: .1;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+        }
+      }
     }
     .value {
       color: hsl(0deg 74% 71%);
+    }
+    .array {
+      color: hsl(50deg 74% 71%);
+    }
+    .object {
+      color: hsl(220deg 74% 71%);
+    }
+
+    .remove-btn {
+      position: absolute;
+      left: -47px;
+      top: 5px;
+      background-color: var(--surface-1);
+      z-index: 1;
     }
   }
 </style>

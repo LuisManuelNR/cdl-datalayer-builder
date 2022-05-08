@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { selectedEvent } from 'src/store/events'
+  import { events, selectedEventIndex } from 'src/store/events'
   import Tree from './Tree.svelte'
 </script>
 
-{#if $selectedEvent}
+{#if $events[$selectedEventIndex]}
   <div class="editor">
-    <h3>{$selectedEvent.name}</h3>
-    <Tree bind:tree={$selectedEvent.data}></Tree>
+    <h3>{$events[$selectedEventIndex].propName}</h3>
+    <Tree bind:tree={$events[$selectedEventIndex].childrens}></Tree>
   </div>
 {:else}
   <div>Seleccione un evento para inspeccionarlo</div>

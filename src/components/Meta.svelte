@@ -2,12 +2,13 @@
   import type { Metadata } from 'src/store/metadatos'
   export let meta: Metadata
   export let value = ''
-  export let key = ''
   export let editable = false
 
   function resizeInput (node: HTMLInputElement) {
     const resize = () => {
-      node.style.width = node.value.length + 'ch'
+      if (node.value.length > 15) {
+        node.style.width = node.value.length + 'ch'
+      }
     }
     node.addEventListener('input', resize)
     return {
@@ -20,9 +21,9 @@
 
 <!-- svelte-ignore a11y-label-has-associated-control -->
 <label class="meta" class:has-value={editable} style="--color: {meta.color};" on:click>
-  <span>{key}</span>
+  <span>{meta.name}</span>
   {#if editable}
-    <input use:resizeInput bind:value={value} placeholder="Sin valor">
+    <input use:resizeInput bind:value={value} placeholder="Escribe un valor">
   {/if}
 </label>
 
@@ -42,6 +43,7 @@
       text-align: inherit;
       resize: both;
       min-width: 100%;
+      font-family: monospace;
     }
     span {
       white-space: nowrap;

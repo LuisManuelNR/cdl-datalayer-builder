@@ -1,21 +1,28 @@
 <script lang="ts">
-  import { CNav, CIcon, CDialog, CInput } from 'chasi-lib'
+  import { CNav, CIcon, CDialog, CInput, CSelect } from 'chasi-lib'
   import { mdiPlus, mdiMenu } from '@mdi/js'
   import Buscador from 'src/components/Buscador.svelte'
-  import { events, selectedEvent, updateEvent } from 'src/store/events'
+  import { events, selectedEventIndex, EVENTS_TYPES } from 'src/store/events'
 
   let visibleNav = false
 
   let addDialog = false
   let newEventName = ''
+  let eventType = 'imPageView'
 
-  let loading = false
   async function _addEvent () {
-    loading = true
-    await updateEvent(newEventName, {
-      event: 'imPageView'
-    })
-    loading = false
+    $events = [
+      ...$events,
+      {
+        propName: newEventName,
+        childrens: [
+          {
+            propName: 'event',
+            value: eventType
+          }
+        ]
+      },
+    ]
     addDialog = false
     newEventName = ''
   }
@@ -26,11 +33,12 @@
     <div class="c-flex align-center justify-between">
       <h4 class="text-s5">Eventos</h4>
       <CDialog bind:visible={addDialog} persistent width=450px>
-        <div class="c-card surface-1" class:loading>
+        <div class="c-card surface-1">
           <p class="text-s5">Nuevo Evento</p>
           <CInput value={newEventName} label="Nombre del evento">
             <input bind:value={newEventName} >
           </CInput>
+          <CSelect label="Tipo de evento" items={EVENTS_TYPES} bind:value={eventType} />
           <div class="c-flex justify-between">
             <button class="c-btn text" on:click={() => addDialog = false}>
               Cancelar
@@ -49,15 +57,15 @@
   </div>
 
   <div class="pa-2">
-    {#each Object.keys($events) as key}
+    {#each $events as event, i}
       <div 
         class="c-selectable mb-1 surface-3"
-        class:selected={$selectedEvent.name === key}
-        on:click={() => $selectedEvent = { name: key, data: $events[key] }}
+        class:selected={$selectedEventIndex === i}
+        on:click={() => $selectedEventIndex = i}
       >
         <div>
-          <p>{key}</p>
-          <p class="text-s2 text-2">({$events[key].event})</p>
+          <p>{event.propName}</p>
+          <p class="text-s2 text-2">({event.childrens[0].value})</p>
         </div>
       </div>
     {/each}
