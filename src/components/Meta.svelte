@@ -10,6 +10,7 @@
         node.style.width = node.value.length + 'ch'
       }
     }
+    resize()
     node.addEventListener('input', resize)
     return {
       destroy () {
