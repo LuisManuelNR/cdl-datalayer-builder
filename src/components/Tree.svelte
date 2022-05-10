@@ -71,11 +71,6 @@
     <div class="tree-item action">
       <CDialog bind:visible={newDialogVisible} persistent width="450px">
         <div class="c-card surface-1">
-          {#if parent.isArray}
-            <button class="c-btn ">
-              Añadir Valor
-            </button>
-          {/if}
           <CInput label="Nombre" value={newField}>
             <input bind:value={newField} />
           </CInput>

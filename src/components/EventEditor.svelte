@@ -16,5 +16,6 @@
   .editor {
     overflow: auto;
     min-height: 75vh;
+    padding: 0 1rem;
   }
 </style>
