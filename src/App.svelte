@@ -1,28 +1,34 @@
 <script lang="ts">
   import { CApp } from 'chasi-lib'
-  import Nav from 'src/components/Nav.svelte'
-  import EventEditor from 'src/components/EventEditor.svelte'
-  import MetaDataEditor from 'src/components/MetaDataEditor.svelte'
-  import Login from 'src/components/Login.svelte'
   import { user } from 'src/store/user'
+
+  const views = [
+    {
+      component: () => import('./views/Dashboard.svelte')
+    },
+    {
+      component: () => import('./views/Login.svelte')
+    },
+  ]
+
+  let loading = true
+  let currentView: number | undefined
+  user.subscribe(u => {
+    currentView = undefined
+    loading = true
+    if (u && u.authenticated) {
+      currentView = 0
+    } else if (u) {
+      currentView = 1
+    }
+    loading = false
+  })
 </script>
 
-<CApp class="dark">
-  {#if $user === undefined}
-    <div class="loading blank"></div>
-  {:else if $user}
-    <Nav />
-    <main class="mt-2">
-      <MetaDataEditor />
-      <EventEditor />
-    </main>
-  {:else}
-    <Login />
+<CApp class="dark {loading ? 'loading' : ''}">
+  {#if currentView !== undefined}
+    {#await views[currentView].component() then v}
+      <svelte:component this={v.default} />
+    {/await}
   {/if}
 </CApp>
-
-<style>
-  .blank {
-    height: 100%;
-  }
-</style>

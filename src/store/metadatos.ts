@@ -1,4 +1,4 @@
-import { appCollection } from './firebase'
+import { appCollection } from 'src/db/firebase'
 export interface Metadata {
   name: string
   color: string,

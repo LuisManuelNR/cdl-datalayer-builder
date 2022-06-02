@@ -4,11 +4,12 @@
   import { signIn } from 'src/store/user'
   let email = ''
   let password = ''
+  let name = ''
   let loading = false
 
   async function onSubmit () {
     loading = true
-    await signIn(email, password, '#login-form-errors')
+    await signIn(email, password, name, '#login-form-errors')
     loading = false
   }
 </script>
@@ -17,6 +18,9 @@
   <div class="c-card surface-3">
     <h1>LOGEATE!!!!!</h1>
     <CForm on:submit={onSubmit}>
+      <CInput label="Nombre" value={name} rules={[required]}>
+        <input bind:value={name} >
+      </CInput>
       <CInput label="Email" value={email} rules={[required, validEmail]}>
         <input type="email" bind:value={email} >
       </CInput>

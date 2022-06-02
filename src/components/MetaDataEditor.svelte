@@ -1,7 +1,7 @@
 <script lang="ts">
   import { CIcon, CDialog, CInput, CForm } from 'chasi-lib'
   import { mdiPlus } from '@mdi/js'
-  import { required } from 'src/store/formRules'
+  import { required } from 'src/helpers/form-rules'
   import type { Metadata } from 'src/store/metadatos'
   import { metadata } from 'src/store/metadatos'
   import Meta from './Meta.svelte'

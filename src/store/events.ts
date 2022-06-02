@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { appCollection } from './firebase'
+import { appCollection } from 'src/db/firebase'
 export interface DatalayerEvent {
   propName: string
   childrens?: DatalayerEvent[]

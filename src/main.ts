@@ -1,4 +1,3 @@
-// import App from './App.svelte'
 import { initializeApp } from 'firebase/app'
 
 const firebaseConfig = {
@@ -11,12 +10,13 @@ const firebaseConfig = {
   appId: '1:778146016514:web:e1076826c0b8569b1fa61b'
 }
 
-async function startApp () {
-  initializeApp(firebaseConfig)
+initializeApp(firebaseConfig)
+
+async function start () {
   const App = (await import('./App.svelte')).default
   new App({
     target: document.getElementById('app')
   })
 }
 
-startApp()
+start()
