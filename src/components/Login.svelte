@@ -17,10 +17,10 @@
   <div class="c-card surface-3">
     <h1>LOGEATE!!!!!</h1>
     <CForm on:submit={onSubmit}>
-      <CInput value={email} rules={[required, validEmail]}>
+      <CInput label="Email" value={email} rules={[required, validEmail]}>
         <input type="email" bind:value={email} >
       </CInput>
-      <CInput value={email} rules={[required]}>
+      <CInput label="Password" value={email} rules={[required]}>
         <input type="password" bind:value={password}>
       </CInput>
       <div id="login-form-errors" class="mt-1"></div>
