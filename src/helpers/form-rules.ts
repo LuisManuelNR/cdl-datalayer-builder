@@ -1,0 +1,2 @@
+export const required = (v: string) => v === undefined || v === null || v === '' ? 'Este campo es requerido' : false
+export const validEmail = (v: string) => /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(v) ? false : 'El email debe ser válido'

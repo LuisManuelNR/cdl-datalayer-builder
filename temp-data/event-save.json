@@ -1,0 +1,465 @@
+{
+  "data": [
+    {
+      "childrens": [
+        {
+          "propName": "event",
+          "value": "imPageView"
+        },
+        {
+          "childrens": [
+            {
+              "isMeta": {
+                "0": "es",
+                "1": "literal",
+                "2": "cd6",
+                "3": "Siempre: es",
+                "4": ""
+              },
+              "propName": "language"
+            },
+            {
+              "propName": "country",
+              "isMeta": {
+                "0": "es",
+                "1": "calculado a través del país",
+                "2": "cd7",
+                "3": "es|mx|co",
+                "4": ""
+              }
+            },
+            {
+              "propName": "platform",
+              "isMeta": {
+                "0": "web_responsive|app_responsive_ios|app_responsive_android|ios|android",
+                "1": "User Agent y APP",
+                "2": "cd41",
+                "3": "",
+                "4": ""
+              }
+            },
+            {
+              "isMeta": {
+                "0": "cdl",
+                "1": "literal",
+                "2": "cd31",
+                "3": "Siempre es: cdl",
+                "4": ""
+              },
+              "propName": "brand"
+            },
+            {
+              "propName": "division",
+              "isMeta": {
+                "0": "cdl",
+                "1": "literal",
+                "2": "cd32",
+                "3": "Siempre es: cdl",
+                "4": ""
+              }
+            }
+          ],
+          "propName": "context"
+        },
+        {
+          "childrens": [
+            {
+              "propName": "type",
+              "isMeta": {
+                "0": "checkout",
+                "1": "chequeando la url",
+                "2": "cd2",
+                "3": "Si fullpath contiene checkout/ok",
+                "4": ""
+              }
+            },
+            {
+              "isMeta": {
+                "0": "typ",
+                "1": "chequeando la url",
+                "2": "",
+                "3": "Si fullpath contiene checkout/ok",
+                "4": ""
+              },
+              "propName": "id"
+            }
+          ],
+          "propName": "page"
+        },
+        {
+          "childrens": [
+            {
+              "propName": "state",
+              "isMeta": {
+                "0": "logged|not_logged",
+                "1": "chequeando el login",
+                "2": "cd55",
+                "3": "",
+                "4": ""
+              }
+            },
+            {
+              "isMeta": {
+                "0": "client|prospect",
+                "1": "chequeando el login",
+                "2": "cd56",
+                "3": "client si está logado, prospect en caso contrario",
+                "4": ""
+              },
+              "propName": "type"
+            },
+            {
+              "propName": "profile",
+              "isMeta": {
+                "0": "afiliado|empresa|particular",
+                "1": "USU_USUARIO.IDTIPOCLIENTE",
+                "2": "cd63",
+                "3": "11: afiliado, 12: empresa, defecto: particular",
+                "4": ""
+              }
+            },
+            {
+              "isMeta": {
+                "0": "id usuario",
+                "1": "USU_USUARIO.IDUSUARIO",
+                "2": "cd59",
+                "3": "",
+                "4": ""
+              },
+              "propName": "id"
+            },
+            {
+              "isMeta": {
+                "0": "pendiente|original|genuino|leyenda",
+                "1": "SOC_SOCIO_NIVEL.TIPONIVEL",
+                "2": "cd160",
+                "3": "-1: pendiente, 1: original, 2: genuino, 3: leyenda, si es socio cuando sale de la web",
+                "4": ""
+              },
+              "propName": "member"
+            },
+            {
+              "propName": "dimension170",
+              "isMeta": {
+                "0": "si_socio|no_socio",
+                "1": "calculado con las variaciones del alta y el login",
+                "2": "cd170",
+                "3": "si es socio o no cuando entra a la web",
+                "4": ""
+              }
+            },
+            {
+              "propName": "social_register",
+              "isMeta": {
+                "0": "google|facebook",
+                "1": "",
+                "2": "cd67",
+                "3": "",
+                "4": ""
+              }
+            },
+            {
+              "isMeta": {
+                "0": "email encriptado AES128",
+                "1": "USU_USUARIO.EMAIL",
+                "2": "cd23",
+                "3": "email encriptado para connectif",
+                "4": ""
+              },
+              "propName": "ctf"
+            },
+            {
+              "isMeta": {
+                "0": "email encriptado SHA256",
+                "1": "USU_USUARIO.EMAIL",
+                "2": "cd165",
+                "3": "",
+                "4": ""
+              },
+              "propName": "dimension165"
+            },
+            {
+              "isMeta": {
+                "0": "google|facebook",
+                "1": "",
+                "2": "cd66",
+                "3": ""
+              },
+              "propName": "social_login"
+            }
+          ],
+          "propName": "user"
+        },
+        {
+          "childrens": [
+            {
+              "isMeta": {
+                "0": "EUR",
+                "1": "literal",
+                "2": "",
+                "3": "Se pidió que siempre fuera Euros",
+                "4": ""
+              },
+              "propName": "currencyCode"
+            },
+            {
+              "childrens": [
+                {
+                  "childrens": [
+                    {
+                      "propName": "id",
+                      "isMeta": {
+                        "0": "id transacción",
+                        "1": "PED_PEDIDO.IDPEDIDOAGRUPADO",
+                        "2": "cd93",
+                        "3": "Es el Id principal",
+                        "4": ""
+                      }
+                    },
+                    {
+                      "isMeta": {
+                        "0": "importe total del pedido",
+                        "1": "Calculado en back sobre PED_PEDIDO.IMPORTETOTAL",
+                        "2": "",
+                        "3": "Sumatorio de importes totales de la lista de pedidos",
+                        "4": ""
+                      },
+                      "propName": "revenue"
+                    },
+                    {
+                      "isMeta": {
+                        "0": "importe envio",
+                        "1": "Calculado en back sobre PED_PEDIDO.GASTOTOTAL-PED_PEDIDO.DESCUENTOGASTOS",
+                        "2": "",
+                        "3": "Sumatorio de las restas entre los gastos y los descuentos sobre gastos de la lista de pedidos",
+                        "4": ""
+                      },
+                      "propName": "shipping"
+                    },
+                    {
+                      "isMeta": {
+                        "0": "impuestos",
+                        "1": "literal",
+                        "2": "",
+                        "3": "Siempre ha estado a 0",
+                        "4": ""
+                      },
+                      "propName": "tax"
+                    },
+                    {
+                      "isMeta": {
+                        "0": "importe total sin IVA",
+                        "1": "Calculado en back sobre PED_PEDIDO.IMPORTEPEDIDO",
+                        "2": "",
+                        "3": "Sumatorio de importes pedido de la lista de pedidos",
+                        "4": ""
+                      },
+                      "propName": "revenue_neto"
+                    },
+                    {
+                      "propName": "coupon",
+                      "isMeta": {
+                        "0": "cupón",
+                        "1": "Código de oferta introducido por el cliente",
+                        "2": "",
+                        "3": "",
+                        "4": ""
+                      }
+                    },
+                    {
+                      "propName": "has_shipping",
+                      "isMeta": {
+                        "0": "Si|No",
+                        "1": "PED_PEDIDO.GASTOTOTAL",
+                        "2": "",
+                        "3": "Si > 0: Si",
+                        "4": ""
+                      }
+                    }
+                  ],
+                  "propName": "actionField"
+                },
+                {
+                  "propName": "products",
+                  "childrens": [],
+                  "isArray": true
+                }
+              ],
+              "propName": "purchase"
+            }
+          ],
+          "propName": "ecommerce"
+        },
+        {
+          "propName": "order",
+          "childrens": [
+            {
+              "childrens": [
+                {
+                  "isMeta": {
+                    "0": "id transacción",
+                    "1": "PED_PEDIDO.IDPEDIDO",
+                    "2": "cd144??",
+                    "3": "",
+                    "4": ""
+                  },
+                  "propName": ""
+                }
+              ],
+              "isArray": true,
+              "propName": "id"
+            },
+            {
+              "propName": "order",
+              "isArray": true,
+              "childrens": [
+                {
+                  "isMeta": {
+                    "0": "codigo pedido",
+                    "1": "PED_PEDIDO.CODIGOPEDIDO",
+                    "2": "",
+                    "3": "",
+                    "4": ""
+                  },
+                  "propName": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "childrens": [
+            {
+              "propName": "type",
+              "isMeta": {
+                "0": "nombre forma de envío",
+                "1": "PED_METODOENVIO.NOMBRE",
+                "2": "",
+                "3": "",
+                "4": ""
+              }
+            }
+          ],
+          "propName": "shipping"
+        },
+        {
+          "childrens": [
+            {
+              "propName": "type",
+              "isMeta": {
+                "0": "método de pago",
+                "1": "Calculado con PED_TIPOPAGO.IDTIPOPAGO",
+                "2": "",
+                "3": "Se calcula según el idTipoPago y son literales asociados.",
+                "4": ""
+              }
+            }
+          ],
+          "propName": "payment"
+        },
+        {
+          "isMeta": {
+            "0": "importe total productos de segunda mano",
+            "1": "PED_PEDIDO.IMPORTEPAGAR",
+            "2": "cd166",
+            "3": "Sumatorio de importes pagar de la lista de pedidos, si PED_PEDIDO.IDEVENDEDOR>0",
+            "4": ""
+          },
+          "propName": "dimension166"
+        },
+        {
+          "isMeta": {
+            "0": "importe total productos de casadellibro",
+            "1": "PED_PEDIDO.IMPORTEPAGAR",
+            "2": "cd167",
+            "3": "Sumatorio de importes totales de la lista de pedidos, si PED_PEDIDO.IDEVENDEDOR=0",
+            "4": ""
+          },
+          "propName": "dimension167"
+        },
+        {
+          "propName": "dimension168",
+          "isArray": true,
+          "childrens": [
+            {
+              "isMeta": {
+                "0": "id productos de segunda mano",
+                "1": "PED_LINEAPEDIDO.IDPRODUCTO",
+                "2": "",
+                "3": "Lista de los identificadores de producto, si PED_PEDIDO.IDEVENDEDOR>0",
+                "4": ""
+              },
+              "propName": ""
+            }
+          ]
+        },
+        {
+          "propName": "dimension169",
+          "isArray": true,
+          "childrens": [
+            {
+              "propName": "",
+              "isMeta": {
+                "0": "id productos de casadellibro",
+                "1": "PED_LINEAPEDIDO.IDPRODUCTO",
+                "2": "",
+                "3": "Lista de los identificadores de producto, si PED_PEDIDO.IDEVENDEDOR=0",
+                "4": ""
+              }
+            }
+          ]
+        }
+      ],
+      "propName": "Thank you page"
+    },
+    {
+      "childrens": [
+        {
+          "value": "imPageView",
+          "propName": "event"
+        }
+      ],
+      "propName": "home"
+    },
+    {
+      "propName": "Producto",
+      "childrens": [
+        {
+          "propName": "event",
+          "value": "imPageView"
+        }
+      ]
+    },
+    {
+      "propName": "chacUSed",
+      "childrens": [
+        {
+          "propName": "event",
+          "value": "imAnalyticsEvent"
+        },
+        {
+          "propName": "user",
+          "childrens": [
+            {
+              "isEdit": true,
+              "propName": "id"
+            },
+            {
+              "propName": "member",
+              "isEdit": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "childrens": [
+        {
+          "propName": "event",
+          "value": "imAnalyticsEvent"
+        }
+      ],
+      "propName": "prueba"
+    }
+  ]
+}

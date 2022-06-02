@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "name": "Valor",
+      "color": "#fdd43f"
+    },
+    {
+      "color": "#72e9cb",
+      "name": "Valor extraido de??"
+    },
+    {
+      "color": "#c698ec",
+      "name": "Custom dimension"
+    },
+    {
+      "name": "notas",
+      "color": "#ffa8cb"
+    }
+  ]
+}
